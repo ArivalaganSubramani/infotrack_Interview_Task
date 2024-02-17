@@ -18,17 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   late Future<Login?> _userData;
 
-  void showSuccessSnackbar() {
-    const snackBar = SnackBar(
-      content: Center(child: Text('Login Successful')),
-      duration: Duration(seconds: 2), // Optional: Adjust the duration
-      backgroundColor: Colors.blue, // Optional: Customize the background color
-      behavior: SnackBarBehavior.floating,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-
   Future<Login?> userData() async {
     if (_formKey.currentState!.validate()) {
       String identity = _usernameController.text;
@@ -54,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (re["status"] == 200) {
           Navigator.pushReplacement(
+
             context,
             MaterialPageRoute(
               builder: (context) =>
@@ -61,6 +51,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       user_id: re["userid"],
                       token: re["token"]),
 
+            ),
+         );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login successful!'),
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.blue,// Adjust the duration as needed
+              behavior: SnackBarBehavior.floating,
             ),
           );
         } else {
@@ -162,7 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed:(){
                     setState(() {
                       _userData = userData();
-                      showSuccessSnackbar();
                       });
                     } ,
                     style: ElevatedButton.styleFrom(
